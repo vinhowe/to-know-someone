@@ -1,0 +1,14 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  -moz-font-feature-settings: "salt" 5;
+  -webkit-font-feature-settings: "salt" 5;
+  font-feature-settings: "salt" 5;
+}
+
+body,
+html {
+  width: 100%;
+}
