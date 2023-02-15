@@ -17,7 +17,7 @@ export function getQuestions() {
   const content = fs.readFileSync(questionsFile, "utf8");
 
   const parsedContent = remark().use(smartypants).parse(content);
-  const questions = parsedContent.children
+  return parsedContent.children
     .filter((child) => child.type === "heading" && child.depth === 2)
     .map((question) => {
       question.type = "paragraph";
@@ -26,9 +26,7 @@ export function getQuestions() {
       return {
         // @ts-ignore
         question: questionBody,
-        slug: slugify(questionBody)
+        slug: slugify(questionBody),
       };
     });
-
-  return questions;
 }
