@@ -13,7 +13,7 @@ function slugify(text: string) {
     .replace(/ +/g, "-");
 }
 
-export function getQuestions(fields: string[] = []) {
+export function getQuestions() {
   const content = fs.readFileSync(questionsFile, "utf8");
 
   const parsedContent = remark().use(smartypants).parse(content);

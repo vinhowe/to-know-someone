@@ -65,7 +65,7 @@ export default function Questions({ questions }: { questions: Question[] }) {
 }
 
 export async function getStaticProps() {
-  const questions = getQuestions(["content"]);
+  const questions = getQuestions();
   return {
     props: {
       questions: await Promise.all(
