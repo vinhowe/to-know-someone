@@ -6,7 +6,9 @@ import Head from "next/head";
 const spaceGrotesk = Space_Grotesk({ subsets: ["latin"] });
 const spaceMono = Space_Mono({ weight: "400", subsets: ["latin"] });
 
-// An example list of questions to ask about someone ("get to know you")
+export const config = {
+  unstable_runtimeJS: false
+}
 
 interface Question {
   question: string;
