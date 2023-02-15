@@ -22,6 +22,8 @@
 
 ## Are you entitled to a story that makes sense?
 
+## Do you like sushi?
+
 ## Do you think a lot about self improvement?
 
 ## Are you a good person?
@@ -63,3 +65,7 @@
 ## Do you, personally, believe in God?
 
 ## What happens by default in your head? What is your background loop? Does it make you happy?
+
+## Do you think you're an awkward person?
+
+## Are you lonely?
