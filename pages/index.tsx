@@ -7,12 +7,14 @@ const spaceGrotesk = Space_Grotesk({ subsets: ["latin"] });
 const spaceMono = Space_Mono({ weight: "400", subsets: ["latin"] });
 
 export const config = {
-  unstable_runtimeJS: false
-}
+  unstable_runtimeJS: false,
+};
 
 interface Question {
   question: string;
   slug: string;
+  hasMeta: boolean;
+  tags?: string[];
 }
 
 export default function Questions({ questions }: { questions: Question[] }) {
@@ -55,6 +57,11 @@ export default function Questions({ questions }: { questions: Question[] }) {
                   className="text-base"
                   dangerouslySetInnerHTML={{ __html: question.question }}
                 ></h3>
+                {question.hasMeta && question.tags && (
+                  <p className="text-xs text-gray-500 mt-2">
+                    {question.tags.join(", ")}
+                  </p>
+                )}
               </a>
             ))}
           </div>
@@ -69,9 +76,11 @@ export async function getStaticProps() {
   return {
     props: {
       questions: await Promise.all(
-        questions.map(async ({ question, slug }) => ({
+        questions.map(async ({ question, slug, hasMeta, tags }) => ({
           question: await markdownToHtml(question),
           slug,
+          hasMeta,
+          tags,
         }))
       ),
     },

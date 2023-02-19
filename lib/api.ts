@@ -1,6 +1,7 @@
 import fs from "fs";
 import { join } from "path";
 
+import toml from "toml";
 import { remark } from "remark";
 import smartypants from "@silvenon/remark-smartypants";
 
@@ -17,16 +18,29 @@ export function getQuestions() {
   const content = fs.readFileSync(questionsFile, "utf8");
 
   const parsedContent = remark().use(smartypants).parse(content);
-  return parsedContent.children
-    .filter((child) => child.type === "heading" && child.depth === 2)
-    .map((question) => {
-      question.type = "paragraph";
+  const questions = [];
+  let currentQuestion = null;
+  for (let child of parsedContent.children) {
+    // @ts-ignore
+    if (child.type === "heading" && child.depth === 3) {
       // @ts-ignore
-      const questionBody = remark().stringify(question);
-      return {
+      child.type = "paragraph";
+      // @ts-ignore
+      const questionBody = remark().stringify(child);
+      currentQuestion = {
         // @ts-ignore
         question: questionBody,
         slug: slugify(questionBody),
+        hasMeta: false,
+        tags: null,
       };
-    });
+      questions.push(currentQuestion);
+    }
+    if (currentQuestion && child.type === "code" && child.lang === "toml" && !currentQuestion.hasMeta) {
+      // Expand the TOML into current question
+      Object.assign(currentQuestion, toml.parse(child.value));
+      currentQuestion.hasMeta = true;
+    }
+  }
+  return questions;
 }
